@@ -26,29 +26,37 @@ def extract_data(page):
             return r
     return 0
 #driver = webdriver.Chrome('D:\Data Science\Poker staking data\chromedriver.exe')
-data_pd = pd.read_csv("staking_small_w_links.csv", encoding="utf8")
-urls = list(data_pd.item_info)
+data_pd = pd.read_csv("wtf.csv", encoding="utf8")
+#data_pd['BI_actual'] = 0
+##data_pd['Cashes'] = 0
+#data_pd = data_pd[(data_pd.status != 'On sale') & (data_pd.status != 'Sold out')]
+#data_pd = data_pd[data_pd.coef.notnull()]
+
+#toWorkWith = data_pd.loc[(data_pd['BI_actual']==0) & (data_pd['Cashes']==0)]
 driver = webdriver.Firefox()
-driver.implicitly_wait(2)
-    
-info = []
-for url in urls:
-    driver.get(url)
-    info.append(extract_data(driver.page_source))
-    
+#driver.implicitly_wait(1)
+
+
+for i in range(2500):
+    if (data_pd['BI_actual'][i] == 0) & (data_pd['Cashes'][i] == 0):
+        url = data_pd['item_info'][i]
+        driver.get(url)
+        info = extract_data(driver.page_source)
+        if type(info) == list:
+            data_pd['BI_actual'][i] = info[2]
+            data_pd['Cashes'][i] = info[3]
+
+#urls = list(data_pd.item_info)
+#driver = webdriver.Firefox()
+#driver.implicitly_wait(2)
+#    
+#info = []
+#for url in urls:
+#    driver.get(url)
+#    info.append(extract_data(driver.page_source))
+#    
 #    driver.close()
     
 
-
-
-
-#driver.execute_script(open("D:\Data Science\Poker staking data\item_details_files/main.859958b1a89a6bf7dab12dd0e026fd00.js").read())
-#html_source = driver.page_source
-#
-
-
-#sleep(5)
-#html = driver.execute_script('main.859958b1a89a6bf7dab12dd0e026fd00.js')
-#print(html)
-
+data_pd.to_csv("wtf.csv", encoding="utf8", index=False)
 
