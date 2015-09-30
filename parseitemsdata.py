@@ -37,7 +37,7 @@ driver = webdriver.Firefox()
 #driver.implicitly_wait(1)
 
 
-for i in range(2500):
+for i in range(len(data_pd)):
     if (data_pd['BI_actual'][i] == 0) & (data_pd['Cashes'][i] == 0):
         url = data_pd['item_info'][i]
         driver.get(url)
