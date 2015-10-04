@@ -7,7 +7,7 @@ Created on Fri Sep 18 10:46:12 2015
 
 import pandas as pd
 
-df = pd.read_csv('staking_nodp.csv')
+df = pd.read_csv('wtf.csv')
 
 #df = df[(df.status != 'On sale') & (df.status != 'Sold out')]
 #df.drop_duplicates(subset=['link', 'usr_name', 'start_date', 'BI', 'tournaments', 'coef',\
@@ -16,7 +16,14 @@ df = pd.read_csv('staking_nodp.csv')
 #df.status = df.status.astype(float)
 
 
-df = df[df.coef.notnull()]
+#df = df[df.coef.notnull()]
+vv = df.columns.values
+vv[15]='cashes'
+df.columns=vv
 
 df['ABI'] = df.BI / df.tournaments
-df['stakers_profit'] = (df.status - (df.BI * (df.coef - 1))) * ((100 - df.player_part - df.sell_left)/100)
+df['stakersProfit'] = (df.cashes - df.BI_actual*df.coef)* \
+((100-df.player_part-df.sell_left)/100)
+
+df['playersProfit'] = (df.cashes-df.BI_actual*(2-df.coef))* \
+((df.player_part+df.sell_left)/100)
