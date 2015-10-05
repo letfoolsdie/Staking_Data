@@ -22,8 +22,9 @@ vv[15]='cashes'
 df.columns=vv
 
 df['ABI'] = df.BI / df.tournaments
-df['stakersProfit'] = (df.cashes - df.BI_actual*df.coef)* \
-((100-df.player_part-df.sell_left)/100)
+df['addPrice'] = df.BI_actual * (df.coef-1)
 
-df['playersProfit'] = (df.cashes-df.BI_actual*(2-df.coef))* \
-((df.player_part+df.sell_left)/100)
+df['stakersProfit'] = (df.cashes - df.BI_actual - df.addPrice)*((100-df.player_part-df.sell_left)/100)
+
+df['playersProfit'] = (df.cashes - df.BI_actual)*((df.player_part+df.sell_left)/100)+ \
+    df.addPrice*((100-df.player_part-df.sell_left)/100)
