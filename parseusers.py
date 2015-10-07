@@ -20,38 +20,50 @@ def extract_data(page):
         values = val.find(text=True)
         r.append(values)
     return r
-#    data = []
-#    for tr in rows[1:]:
-#        r = []
-#        cols = tr.findAll('td')
-#        for td in cols:
-#            if ('right' in td['class']) & ('i' in td['class']): 
-#                text = td.find(text=True)
-#                r.append(text)
-#        if len(r) > 0:
-#            return r
-#    return 0
+
+
+def extract_general_data(page):
+    soup = BeautifulSoup(page)
+    r = []
+    if page.find('Profit') < 0:
+        return 0
+    divs = soup.findAll('div', attrs={'class': 'b-profile__column'})
+    for d in divs:
+#        if type(d.find('Profit All time')) != 0:
+        dts = d.findAll('dt')
+        for val in dts:
+            values = val.find(text=True)
+            r.append(values)
+    return r
+
+    
+    
 data_pd = pd.read_csv("wtf_users1.csv", encoding="utf8")
 
 driver = webdriver.Firefox()
 #driver.get(user)
 usersInfo = []
-for i in range(len(data_pd)):
-    if (data_pd['tournaments'][i] == 0) & (data_pd['roi'][i] == 0):
-        url = data_pd['link'][i]
-        driver.get(url)
-        info = extract_data(driver.page_source)
-        if type(info) == list:
-            data_pd['profit'][i]=float(info[0][:-1])
-            data_pd['totBI'][i]=float(info[1][:-1])
-            data_pd['totCashes'][i]=float(info[2][:-1])
-            data_pd['roi'][i]=float(info[3][:-1])
-            data_pd['roiBI'][i]=float(info[4][:-1])
-            data_pd['tournaments'][i]=int(info[5])
-            data_pd['abi'][i]=float(info[6][:-1])
-            data_pd['itm'][i]=float(info[7][:-1])
-#        usersInfo.append(info)
+for i in range(10):
+#    if (data_pd['tournaments'][i] == 0) & (data_pd['roi'][i] == 0):
+#        url = data_pd['link'][i]
+#        driver.get(url)
+#        info = extract_data(driver.page_source)
+#        if type(info) == list:
+#            data_pd['profit'][i]=float(info[0][:-1])
+#            data_pd['totBI'][i]=float(info[1][:-1])
+#            data_pd['totCashes'][i]=float(info[2][:-1])
+#            data_pd['roi'][i]=float(info[3][:-1])
+#            data_pd['roiBI'][i]=float(info[4][:-1])
+#            data_pd['tournaments'][i]=int(info[5])
+#            data_pd['abi'][i]=float(info[6][:-1])
+#            data_pd['itm'][i]=float(info[7][:-1])
+
     
+#        usersInfo.append(info)
+    url = data_pd['link'][i]+'/stats'
+    driver.get(url)
+    info = extract_general_data(driver.page_source)
+    usersInfo.append(info)
 #    
-data_pd.to_csv('wtf_users1.csv', encoding='utf8', index=False)
+#data_pd.to_csv('wtf_users1.csv', encoding='utf8', index=False)
 
