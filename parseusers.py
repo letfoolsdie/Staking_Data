@@ -56,7 +56,7 @@ data_pd = pd.read_csv("wtf_users2.csv", encoding="utf8")
 driver = webdriver.Firefox()
 #driver.get(user)
 usersInfo = []
-for i in range(10):
+for i in range(len(data_pd)):
 #    print('started cycle')
     if (data_pd['tournaments'][i] == 0) & (data_pd['roi'][i] == 0):
         url = data_pd['link'][i]
@@ -81,14 +81,15 @@ for i in range(10):
         driver.get(url)
         
         infoT, infoLY = extract_general_data(driver.page_source)
-        if type(infoT) == list:
+        
+        if (type(infoT) == list):
             data_pd['tot_tournaments'][i]=int(infoT[0])
             data_pd['tot_avFieldSize'][i]=float(infoT[1])
             data_pd['tot_avBI'][i]=float(infoT[2])
             data_pd['tot_profit'][i]=float(infoT[3])
             data_pd['tot_avROI'][i]=float(infoT[4])
             data_pd['tot_totROI'][i]=float(infoT[5])
-        if type(infoLY) == list:
+        if (type(infoLY) == list):#&(len(infoLY)>0)
             data_pd['ly_tournaments'][i]=int(infoLY[0])
             data_pd['ly_avFieldSize'][i]=float(infoLY[1])
             data_pd['ly_avBI'][i]=float(infoLY[2])
