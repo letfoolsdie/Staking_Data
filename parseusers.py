@@ -33,13 +33,13 @@ def extract_general_data(page):
     divs = soup.findAll('div', attrs={'class': 'b-profile__column'})
     for d in divs:
 
-        if ('Profit All time' in d.text):
+        if ('Profit All time' in d.text)&('During his career' in d.text):
             dts = d.findAll('dt')
             for val in dts:
                 values = val.find(text=True)
                 totTournaments.append(values)
 #            break
-        if ('Profit last year' in d.text):
+        if ('excluding large field' in d.text):
             dts = d.findAll('dt')
             for val in dts:
                 values = val.find(text=True)
@@ -75,7 +75,7 @@ for i in range(len(data_pd)):
     
 #        usersInfo.append(info)
   
-    if np.isnan(data_pd['tot_tournaments'][i]):     
+    if True:#np.isnan(data_pd['tot_tournaments'][i]):     
 #        print('find with None values')
         url = data_pd['link'][i]+'/stats'
         driver.get(url)
