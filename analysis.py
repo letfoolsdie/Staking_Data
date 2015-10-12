@@ -34,17 +34,17 @@ df['playersProfit'] = (df.cashes - df.BI_actual)*((df.player_part+df.sell_left)/
     df.addPrice*((100-df.player_part-df.sell_left)/100)
 
 
-###BUILD GRAPH WITH TOTAL PROFIT OVER TIME:
-#ts = df[['start_date', 'status', 'playersProfit','stakersProfit']]
-#ts.start_date = pd.to_datetime(ts.start_date, format="%d.%m.%Y")
-#ts = ts.groupby(['start_date']).sum()
-##ts = ts.sort(columns='start_date')
-#ts.status = ts.status.cumsum()
-#ts.playersProfit = ts.playersProfit.cumsum()
-#ts.stakersProfit = ts.stakersProfit.cumsum()
-##ts.plot(x='start_date',y='status')
-#ts.plot()
-#
+##BUILD GRAPH WITH TOTAL PROFIT OVER TIME:
+ts = df[['start_date', 'status', 'playersProfit','stakersProfit']]
+ts.start_date = pd.to_datetime(ts.start_date, format="%d.%m.%Y")
+ts = ts.groupby(['start_date']).sum()
+#ts = ts.sort(columns='start_date')
+ts.status = ts.status.cumsum()
+ts.playersProfit = ts.playersProfit.cumsum()
+ts.stakersProfit = ts.stakersProfit.cumsum()
+#ts.plot(x='start_date',y='status')
+ts.plot()
+
 ###BUILD BAR GRAPH FOR 'ABI' vs. 'coef'
 ##check for coef.value_counts()(!!) for representative numbers
 #abiCoef = df[['ABI','coef']]
@@ -61,6 +61,11 @@ df['playersProfit'] = (df.cashes - df.BI_actual)*((df.player_part+df.sell_left)/
 ##PLAYERS WHO WERE PROFITABLE TO STAKER:
 #plSum[plSum.stakersProfit>0].sort(columns='stakersProfit')
 
+##AVERAGE PROFIT PER DEAL FOR EACH COEFFICIENT:
+#x = df[['coef','status']].groupby('coef').sum()
+#x['nums'] = df.coef.value_counts()
+#x['avrgForCoef']=x.status/x.nums
+#x['avrgForCoef'].plot(kind='bar')
 
 
 
