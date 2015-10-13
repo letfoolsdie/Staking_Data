@@ -8,10 +8,10 @@ Created on Fri Sep 18 10:46:12 2015
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
-#matplotlib.style.use('ggplot')
+matplotlib.style.use('ggplot')
 
 df = pd.read_csv('wtf.csv', parse_dates=True, dayfirst=True)
-
+dfUsers = pd.read_csv('wtf_users2.csv',encoding='utf8')
 #df = df[(df.status != 'On sale') & (df.status != 'Sold out')]
 #df.drop_duplicates(subset=['link', 'usr_name', 'start_date', 'BI', 'tournaments', 'coef',\
 # 'stakeback', 'player_part', 'sell_left', 'status'], inplace=True)
@@ -34,16 +34,16 @@ df['playersProfit'] = (df.cashes - df.BI_actual)*((df.player_part+df.sell_left)/
     df.addPrice*((100-df.player_part-df.sell_left)/100)
 
 
-##BUILD GRAPH WITH TOTAL PROFIT OVER TIME:
-ts = df[['start_date', 'status', 'playersProfit','stakersProfit']]
-ts.start_date = pd.to_datetime(ts.start_date, format="%d.%m.%Y")
-ts = ts.groupby(['start_date']).sum()
-#ts = ts.sort(columns='start_date')
-ts.status = ts.status.cumsum()
-ts.playersProfit = ts.playersProfit.cumsum()
-ts.stakersProfit = ts.stakersProfit.cumsum()
-#ts.plot(x='start_date',y='status')
-ts.plot()
+###BUILD GRAPH WITH TOTAL PROFIT OVER TIME:
+#ts = df[['start_date', 'status', 'playersProfit','stakersProfit']]
+#ts.start_date = pd.to_datetime(ts.start_date, format="%d.%m.%Y")
+#ts = ts.groupby(['start_date']).sum()
+##ts = ts.sort(columns='start_date')
+#ts.status = ts.status.cumsum()
+#ts.playersProfit = ts.playersProfit.cumsum()
+#ts.stakersProfit = ts.stakersProfit.cumsum()
+##ts.plot(x='start_date',y='status')
+#ts.plot()
 
 ###BUILD BAR GRAPH FOR 'ABI' vs. 'coef'
 ##check for coef.value_counts()(!!) for representative numbers
@@ -66,6 +66,12 @@ ts.plot()
 #x['nums'] = df.coef.value_counts()
 #x['avrgForCoef']=x.status/x.nums
 #x['avrgForCoef'].plot(kind='bar')
+#
+##COMPARE ROI FOR STAKED TOURNAMENTS AND GENERAL ROI FOR A PLAYER 
+#dist = 500
+#haveDist = dfUsers[dfUsers.tournaments > dist]
+#x = haveDist[haveDist.roi>haveDist.tot_totROI]
+#playedBetter = len(x)/len(haveDist)
 
 
 

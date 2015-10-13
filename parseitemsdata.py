@@ -27,7 +27,7 @@ def extract_data(page):
     return 0
 
 
-data_pd = pd.read_csv("wtf.csv", encoding="utf8")
+data_pd = pd.read_csv("data13102015\data131015_2it.csv", encoding="utf8")
 
 #toWorkWith = data_pd.loc[(data_pd['BI_actual']==0) & (data_pd['Cashes']==0)]
 driver = webdriver.Firefox()
@@ -43,5 +43,5 @@ for i in range(len(data_pd)):
             data_pd['BI_actual'][i] = info[2]
             data_pd['Cashes'][i] = info[3]
 
-data_pd.to_csv("wtf.csv", encoding="utf8", index=False)
+data_pd.to_csv("data13102015\data131015_2it.csv", encoding="utf8", index=False)
 

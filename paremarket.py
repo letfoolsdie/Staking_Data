@@ -11,17 +11,12 @@ from selenium import webdriver
 driver = webdriver.Firefox()
 
 
-try:
-    driver.get("https://mttmarket.com/packets/list")
-    driver.maximize_window()
-    x = driver.find_element_by_link_text('Show more')
-except NoSuchElementException:
-    print('ERROR :(')
-    driver.refresh()
-finally:
-    x = driver.find_element_by_link_text('Show more')
-    for i in range(1000):
-        x.click()
+driver.get("https://mttmarket.com/packets/list?status=complete")
+driver.maximize_window()
+x = driver.find_element_by_link_text('Show more')
+x = driver.find_element_by_link_text('Show more')
+for i in range(1000):
+    x.click()
 #        time.sleep(0.5)
     
 
