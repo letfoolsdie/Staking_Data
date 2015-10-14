@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 def get_num(x):
     return float(''.join(ele for ele in x if ele.isdigit() or ele == '.'))
 
-soup = BeautifulSoup(open("MttMarket.html", encoding="utf8"))
+soup = BeautifulSoup(open("data13102015\MttMarket.htm", encoding="utf8"))
 table = soup.find('table', attrs={'class': 'b-exchange-table'})
 rows = table.findAll('tr')
 data = []
@@ -26,7 +26,8 @@ for tr in rows[1:]:
         r.append(text)
     data.append(r)
 
-cols = ['link', 'usr_name', 'start_date', 'BI', 'tournaments', 'coef', 'stakeback', 'player_part', 'sell_left', 'status', 'item_info','shit']
+cols = ['link', 'usr_name', 'start_date', 'BI', 'tournaments', 'coef', \
+'stakeback', 'player_part', 'sell_left', 'status', 'item_info','shit']
 #data.insert(0,cols)
 
 for i in data:
@@ -40,7 +41,10 @@ data_pd = pd.DataFrame(data, columns=cols)
 #del data_pd['shit']
 
 data_pd.drop_duplicates(subset=cols, inplace=True)
-data_pd.to_csv('staking_small_w_links.csv', encoding="utf8")
+data_pd['BI_actual'] = 0.0
+data_pd['Cashes'] = 0.0
+
+data_pd.to_csv('data13102015\data131015_1it.csv', encoding="utf8")
 
 
 

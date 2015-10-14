@@ -51,14 +51,37 @@ def extract_general_data(page):
     return totTournaments, lyTournamentsNoTurbo
     
     
-data_pd = pd.read_csv("wtf_users2.csv", encoding="utf8")
+data_pd = pd.read_csv('data13102015\\pusers14102015.csv', encoding="utf8")
+
+#data_pd['profit'] = np.nan
+#data_pd['totBI']= np.nan
+#data_pd['totCashes']= np.nan
+#data_pd['roi']= np.nan
+#data_pd['roiBI']= np.nan
+#data_pd['tournaments']= np.nan
+#data_pd['abi']= np.nan
+#data_pd['itm']= np.nan
+#
+#data_pd['tot_tournaments']= np.nan
+#data_pd['tot_avFieldSize']= np.nan
+#data_pd['tot_avBI']= np.nan
+#data_pd['tot_profit']= np.nan
+#data_pd['tot_avROI']= np.nan
+#data_pd['tot_totROI']= np.nan
+#
+#data_pd['ly_tournaments']= np.nan
+#data_pd['ly_avFieldSize']= np.nan
+#data_pd['ly_avBI']= np.nan
+#data_pd['ly_profit']= np.nan
+#data_pd['ly_avROI']= np.nan
+#data_pd['ly_totROI']= np.nan
 
 driver = webdriver.Firefox()
 #driver.get(user)
 usersInfo = []
 for i in range(len(data_pd)):
 #    print('started cycle')
-    if (data_pd['tournaments'][i] == 0) & (data_pd['roi'][i] == 0):
+    if (np.isnan(data_pd['tournaments'][i])):
         url = data_pd['link'][i]
         driver.get(url)
         info = extract_data(driver.page_source)
@@ -75,7 +98,7 @@ for i in range(len(data_pd)):
     
 #        usersInfo.append(info)
   
-    if True:#np.isnan(data_pd['tot_tournaments'][i]):     
+    if np.isnan(data_pd['tot_tournaments'][i]):     
 #        print('find with None values')
         url = data_pd['link'][i]+'/stats'
         driver.get(url)
@@ -98,5 +121,5 @@ for i in range(len(data_pd)):
             data_pd['ly_totROI'][i]=float(infoLY[5])
 #    usersInfo.append([infoT,infoLY])
 #    
-data_pd.to_csv('wtf_users2.csv', encoding='utf8', index=False)
+data_pd.to_csv("data13102015\\pusers14102015.csv", encoding='utf8', index=False)
 
