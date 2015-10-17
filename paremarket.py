@@ -7,8 +7,8 @@ Created on Wed Sep 16 13:47:15 2015
 import time
 from selenium import webdriver
 
-#driver = webdriver.Chrome('D:\Data Science\Poker staking data\chromedriver.exe')
-driver = webdriver.Firefox()
+driver = webdriver.Chrome('D:\Data Science\Poker staking data\chromedriver.exe')
+#driver = webdriver.Firefox()
 
 
 driver.get("https://mttmarket.com/packets/list?status=complete")
@@ -17,9 +17,9 @@ x = driver.find_element_by_link_text('Show more')
 #x = driver.find_element_by_link_text('Show more')
 for i in range(1000):
     x.click()
-#        time.sleep(0.5)
+    time.sleep(1)
     
-
+#while (1 < 10) {document.getElementsByClassName('b-btn__white__big')[0].click();} <=this one is for js in the browser
 
 #driver.refresh()
 #driver.find_element_by_class_name("b-btn b-btn__white b-btn__white__big").click()

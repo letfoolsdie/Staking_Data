@@ -6,13 +6,33 @@ Created on Thu Sep 17 12:18:22 2015
 """
 import pandas as pd
 from bs4 import BeautifulSoup
+import matplotlib
+matplotlib.style.use('ggplot')
 
 def get_num(x):
     return float(''.join(ele for ele in x if ele.isdigit() or ele == '.'))
 
-soup = BeautifulSoup(open("data15102015\MttMarket.htm", encoding="utf8"))
-soup1 = BeautifulSoup(open("data13102015\MttMarket.htm", encoding="utf8"))
-soup2 = BeautifulSoup(open("alldata_220915-1726\MttMarket.htm", encoding="utf8"))
+
+
+def buildGraph(df):
+    ts = df[['start_date', 'status']]
+    ts.start_date = pd.to_datetime(ts.start_date, format="%d.%m.%Y")
+    ts = ts.groupby(['start_date']).sum()
+    #ts = ts.sort(columns='start_date')
+    ts.status = ts.status.cumsum()
+    ts.plot()
+
+rec = pd.read_csv('data15102015\combined_it1-8-js.csv', parse_dates=True, dayfirst=True)
+#soup = BeautifulSoup(open("data15102015\it1.htm", encoding="utf8"))
+#soup1 = BeautifulSoup(open("data15102015\it2.htm", encoding="utf8"))
+#soup2 = BeautifulSoup(open("data15102015\it5.htm", encoding="utf8"))
+#soup3 = BeautifulSoup(open("data15102015\it_js.html", encoding="utf8"))
+#soup4 = BeautifulSoup(open("data15102015\it4.htm", encoding="utf8"))
+#soup5 = BeautifulSoup(open("data15102015\it5.htm", encoding="utf8"))
+#soup6 = BeautifulSoup(open("data15102015\it7.html", encoding="utf8"))
+#soup7 = BeautifulSoup(open("data15102015/1710-it8.html"))
+soup8 = BeautifulSoup(open("data15102015/1710-it9.html"))
+
 def buildDataframe(soup):
 
     table = soup.find('table', attrs={'class': 'b-exchange-table'})
@@ -44,14 +64,28 @@ def buildDataframe(soup):
 #    df.drop_duplicates(inplace=True)
     df.drop_duplicates(subset='item_info',inplace=True)
     return df
-    
-df = buildDataframe(soup)
+#    
+#df = buildDataframe(soup)
+#df1 = buildDataframe(soup1)
+#df2 = buildDataframe(soup2)
+#df3 = buildDataframe(soup3)
+#df4 = buildDataframe(soup4)
+#df5 = buildDataframe(soup5)
+#df6 = buildDataframe(soup6)
+#df7 = buildDataframe(soup7)
+df8 = buildDataframe(soup8)
 
-df1 = buildDataframe(soup1)
+#rec = pd.concat([df,df1,df2,df3])
+#rec.drop_duplicates(subset='item_info',inplace=True)
+
+
+###DEBUG: BUILD GRAPH:
+
+
 #df1 = df1[(df1.status!='On sale') & (df1.status!='Sold out')]
 
-df2 = buildDataframe(soup2)
-df2 = df2[(df2.status!='On sale') & (df2.status!='Sold out')]
+#df2 = buildDataframe(soup2)
+#df2 = df2[(df2.status!='On sale') & (df2.status!='Sold out')]
 
 #df = pd.DataFrame(data, columns=cols)
 #del data_pd['shit']
