@@ -6,6 +6,7 @@ Created on Thu Sep 17 12:18:22 2015
 """
 import pandas as pd
 from bs4 import BeautifulSoup
+import numpy as np
 import matplotlib
 matplotlib.style.use('ggplot')
 
@@ -22,16 +23,9 @@ def buildGraph(df):
     ts.status = ts.status.cumsum()
     ts.plot()
 
-rec = pd.read_csv('data15102015\combined_it1-8-js.csv', parse_dates=True, dayfirst=True)
+data_pd = pd.read_csv('data15102015\it1-11_final.csv', parse_dates=True, dayfirst=True)
 #soup = BeautifulSoup(open("data15102015\it1.htm", encoding="utf8"))
-#soup1 = BeautifulSoup(open("data15102015\it2.htm", encoding="utf8"))
-#soup2 = BeautifulSoup(open("data15102015\it5.htm", encoding="utf8"))
-#soup3 = BeautifulSoup(open("data15102015\it_js.html", encoding="utf8"))
-#soup4 = BeautifulSoup(open("data15102015\it4.htm", encoding="utf8"))
-#soup5 = BeautifulSoup(open("data15102015\it5.htm", encoding="utf8"))
-#soup6 = BeautifulSoup(open("data15102015\it7.html", encoding="utf8"))
-#soup7 = BeautifulSoup(open("data15102015/1710-it8.html"))
-soup8 = BeautifulSoup(open("data15102015/1710-it9.html"))
+
 
 def buildDataframe(soup):
 
@@ -66,35 +60,38 @@ def buildDataframe(soup):
     return df
 #    
 #df = buildDataframe(soup)
-#df1 = buildDataframe(soup1)
-#df2 = buildDataframe(soup2)
-#df3 = buildDataframe(soup3)
-#df4 = buildDataframe(soup4)
-#df5 = buildDataframe(soup5)
-#df6 = buildDataframe(soup6)
-#df7 = buildDataframe(soup7)
-df8 = buildDataframe(soup8)
 
 #rec = pd.concat([df,df1,df2,df3])
 #rec.drop_duplicates(subset='item_info',inplace=True)
 
 
-###DEBUG: BUILD GRAPH:
+##ADDING FIELD FOR FINAL VERSION:
 
-
-#df1 = df1[(df1.status!='On sale') & (df1.status!='Sold out')]
-
-#df2 = buildDataframe(soup2)
-#df2 = df2[(df2.status!='On sale') & (df2.status!='Sold out')]
-
-#df = pd.DataFrame(data, columns=cols)
-#del data_pd['shit']
+#data_pd['profit'] = np.nan
+#data_pd['totBI']= np.nan
+#data_pd['totCashes']= np.nan
+#data_pd['roi']= np.nan
+#data_pd['roiBI']= np.nan
+#data_pd['tournaments']= np.nan
+#data_pd['abi']= np.nan
+#data_pd['itm']= np.nan
 #
-#data_pd.drop_duplicates(subset=cols, inplace=True)
-#data_pd['BI_actual'] = 0.0
-#data_pd['Cashes'] = 0.0
+#data_pd['tot_tournaments']= np.nan
+#data_pd['tot_avFieldSize']= np.nan
+#data_pd['tot_avBI']= np.nan
+#data_pd['tot_profit']= np.nan
+#data_pd['tot_avROI']= np.nan
+#data_pd['tot_totROI']= np.nan
 #
-#data_pd.to_csv('data13102015\data131015_1it.csv', encoding="utf8")
+#data_pd['ly_tournaments']= np.nan
+#data_pd['ly_avFieldSize']= np.nan
+#data_pd['ly_avBI']= np.nan
+#data_pd['ly_profit']= np.nan
+#data_pd['ly_avROI']= np.nan
+#data_pd['ly_totROI']= np.nan
+
+data_pd.to_csv('data15102015\it1-11_DONE.csv', encoding="utf8", index=False)
+
 
 
 

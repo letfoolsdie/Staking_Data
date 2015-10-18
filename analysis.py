@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.style.use('ggplot')
 
-df = pd.read_csv('data13102015\data131015_2it.csv', parse_dates=True, dayfirst=True)
+df = pd.read_csv('wtf.csv', parse_dates=True, dayfirst=True)
 #df = pd.read_csv('wtf.csv', parse_dates=True, dayfirst=True)
 #dfUsers = pd.read_csv('wtf_users2.csv',encoding='utf8')
 #df = df[(df.status != 'On sale') & (df.status != 'Sold out')]
@@ -35,15 +35,17 @@ df['stakersProfit'] = (df.cashes - df.BI_actual - df.addPrice)*((100-df.player_p
 df['playersProfit'] = (df.cashes - df.BI_actual)*((df.player_part+df.sell_left)/100)+ \
     df.addPrice*((100-df.player_part-df.sell_left)/100)
 
+df['newpr'] = df.status - df.addPrice
 
 ##BUILD GRAPH WITH TOTAL PROFIT OVER TIME:
-ts = df[['start_date', 'status', 'playersProfit','stakersProfit']]
+ts = df[['start_date', 'status', 'playersProfit','stakersProfit', 'newpr']]
 ts.start_date = pd.to_datetime(ts.start_date, format="%d.%m.%Y")
 ts = ts.groupby(['start_date']).sum()
 #ts = ts.sort(columns='start_date')
 ts.status = ts.status.cumsum()
 ts.playersProfit = ts.playersProfit.cumsum()
 ts.stakersProfit = ts.stakersProfit.cumsum()
+ts.newpr = ts.newpr.cumsum()
 #ts.plot(x='start_date',y='status')
 ts.plot()
 

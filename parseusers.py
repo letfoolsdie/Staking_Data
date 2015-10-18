@@ -9,6 +9,7 @@ import pandas as pd
 import numpy as np
 from bs4 import BeautifulSoup
 from selenium import webdriver
+import time
 
 def extract_data(page):
     soup = BeautifulSoup(page)
@@ -51,7 +52,7 @@ def extract_general_data(page):
     return totTournaments, lyTournamentsNoTurbo
     
     
-data_pd = pd.read_csv('data13102015\\pusers14102015.csv', encoding="utf8")
+data_pd = pd.read_csv('data15102015\pusers_it1-11_DONE_id.csv', encoding="utf8")
 
 #data_pd['profit'] = np.nan
 #data_pd['totBI']= np.nan
@@ -76,7 +77,9 @@ data_pd = pd.read_csv('data13102015\\pusers14102015.csv', encoding="utf8")
 #data_pd['ly_avROI']= np.nan
 #data_pd['ly_totROI']= np.nan
 
-driver = webdriver.Firefox()
+#driver = webdriver.Firefox()
+driver = webdriver.Chrome('D:\Data Science\Poker staking data\chromedriver.exe')
+
 #driver.get(user)
 usersInfo = []
 for i in range(len(data_pd)):
@@ -84,6 +87,7 @@ for i in range(len(data_pd)):
     if (np.isnan(data_pd['tournaments'][i])):
         url = data_pd['link'][i]
         driver.get(url)
+        time.sleep(0.5)
         info = extract_data(driver.page_source)
         if type(info) == list:
             data_pd['profit'][i]=float(info[0][:-1])
@@ -102,7 +106,7 @@ for i in range(len(data_pd)):
 #        print('find with None values')
         url = data_pd['link'][i]+'/stats'
         driver.get(url)
-        
+        time.sleep(0.5)
         infoT, infoLY = extract_general_data(driver.page_source)
         
         if (type(infoT) == list):
@@ -121,5 +125,5 @@ for i in range(len(data_pd)):
             data_pd['ly_totROI'][i]=float(infoLY[5])
 #    usersInfo.append([infoT,infoLY])
 #    
-data_pd.to_csv("data13102015\\pusers14102015.csv", encoding='utf8', index=False)
+data_pd.to_csv("data15102015\pusers_it1-11_DONE_id.csv", encoding='utf8', index=False)
 

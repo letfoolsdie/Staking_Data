@@ -8,6 +8,7 @@ from selenium import webdriver
 import pandas as pd
 from bs4 import BeautifulSoup
 import numpy as np
+import time
 
 def extract_data(page):
     soup = BeautifulSoup(page)
@@ -28,44 +29,49 @@ def extract_data(page):
     return 0
 
 
-data_pd = pd.read_csv("data13102015\data131015_2it.csv", encoding="utf8")
+data_pd = pd.read_csv("data15102015\it1-11_DONE_id.csv", encoding="utf8")
 
 #toWorkWith = data_pd.loc[(data_pd['BI_actual']==0) & (data_pd['Cashes']==0)]
-driver = webdriver.Firefox()
+#driver = webdriver.Firefox()
 #driver.implicitly_wait(1)
-
+driver = webdriver.Chrome('D:\Data Science\Poker staking data\chromedriver.exe')
 
 for i in range(len(data_pd)):
-    if (data_pd['BI_actual'][i] == 0) & (data_pd['Cashes'][i] == 0):
+    if (np.isnan(data_pd['BI_actual'][i]) & (np.isnan(data_pd['cashes'][i]))):
         url = data_pd['item_info'][i]
         driver.get(url)
+        time.sleep(0.5)
         info = extract_data(driver.page_source)
         if type(info) == list:
             data_pd['BI_actual'][i] = info[2]
-            data_pd['Cashes'][i] = info[3]
+            data_pd['cashes'][i] = info[3]
 #
-#data_pd['profit'] = np.nan
-#data_pd['totBI']= np.nan
-#data_pd['totCashes']= np.nan
-#data_pd['roi']= np.nan
-#data_pd['roiBI']= np.nan
-#data_pd['tournaments']= np.nan
-#data_pd['abi']= np.nan
-#data_pd['itm']= np.nan
-#
-#data_pd['tot_tournaments']= np.nan
-#data_pd['tot_avFieldSize']= np.nan
-#data_pd['tot_avBI']= np.nan
-#data_pd['tot_profit']= np.nan
-#data_pd['tot_avROI']= np.nan
-#data_pd['tot_totROI']= np.nan
-#
-#data_pd['ly_tournaments']= np.nan
-#data_pd['ly_avFieldSize']= np.nan
-#data_pd['ly_avBI']= np.nan
-#data_pd['ly_profit']= np.nan
-#data_pd['ly_avROI']= np.nan
-#data_pd['ly_totROI']= np.nan
 
-data_pd.to_csv("data13102015\data131015_2it.csv", encoding="utf8", index=False)
 
+data_pd.to_csv("data15102015\it1-11_DONE_id.csv", encoding="utf8", index=False)
+
+data_pd['profit'] = np.nan
+data_pd['totBI']= np.nan
+data_pd['totCashes']= np.nan
+data_pd['roi']= np.nan
+data_pd['roiBI']= np.nan
+data_pd['tournaments']= np.nan
+data_pd['abi']= np.nan
+data_pd['itm']= np.nan
+
+data_pd['tot_tournaments']= np.nan
+data_pd['tot_avFieldSize']= np.nan
+data_pd['tot_avBI']= np.nan
+data_pd['tot_profit']= np.nan
+data_pd['tot_avROI']= np.nan
+data_pd['tot_totROI']= np.nan
+
+data_pd['ly_tournaments']= np.nan
+data_pd['ly_avFieldSize']= np.nan
+data_pd['ly_avBI']= np.nan
+data_pd['ly_profit']= np.nan
+data_pd['ly_avROI']= np.nan
+data_pd['ly_totROI']= np.nan
+users = data_pd
+users.drop_duplicates(subset='usr_name',inplace=True)
+users.to_csv("data15102015\pusers_it1-11_DONE_id.csv", encoding="utf8")
