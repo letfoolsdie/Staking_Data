@@ -50,28 +50,28 @@ for i in range(len(data_pd)):
 
 data_pd.to_csv("data15102015\it1-11_DONE_id.csv", encoding="utf8", index=False)
 
-data_pd['profit'] = np.nan
-data_pd['totBI']= np.nan
-data_pd['totCashes']= np.nan
-data_pd['roi']= np.nan
-data_pd['roiBI']= np.nan
-data_pd['tournaments']= np.nan
-data_pd['abi']= np.nan
-data_pd['itm']= np.nan
-
-data_pd['tot_tournaments']= np.nan
-data_pd['tot_avFieldSize']= np.nan
-data_pd['tot_avBI']= np.nan
-data_pd['tot_profit']= np.nan
-data_pd['tot_avROI']= np.nan
-data_pd['tot_totROI']= np.nan
-
-data_pd['ly_tournaments']= np.nan
-data_pd['ly_avFieldSize']= np.nan
-data_pd['ly_avBI']= np.nan
-data_pd['ly_profit']= np.nan
-data_pd['ly_avROI']= np.nan
-data_pd['ly_totROI']= np.nan
+#data_pd['profit'] = np.nan
+#data_pd['totBI']= np.nan
+#data_pd['totCashes']= np.nan
+#data_pd['roi']= np.nan
+#data_pd['roiBI']= np.nan
+#data_pd['tournaments']= np.nan
+#data_pd['abi']= np.nan
+#data_pd['itm']= np.nan
+#
+#data_pd['tot_tournaments']= np.nan
+#data_pd['tot_avFieldSize']= np.nan
+#data_pd['tot_avBI']= np.nan
+#data_pd['tot_profit']= np.nan
+#data_pd['tot_avROI']= np.nan
+#data_pd['tot_totROI']= np.nan
+#
+#data_pd['ly_tournaments']= np.nan
+#data_pd['ly_avFieldSize']= np.nan
+#data_pd['ly_avBI']= np.nan
+#data_pd['ly_profit']= np.nan
+#data_pd['ly_avROI']= np.nan
+#data_pd['ly_totROI']= np.nan
 users = data_pd
 users.drop_duplicates(subset='usr_name',inplace=True)
 users.to_csv("data15102015\pusers_it1-11_DONE_id.csv", encoding="utf8")

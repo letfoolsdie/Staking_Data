@@ -10,9 +10,9 @@ import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.style.use('ggplot')
 
-df = pd.read_csv('wtf.csv', parse_dates=True, dayfirst=True)
+df = pd.read_csv('data15102015\it1-11_DONE_id.csv', parse_dates=True, dayfirst=True)
 #df = pd.read_csv('wtf.csv', parse_dates=True, dayfirst=True)
-#dfUsers = pd.read_csv('wtf_users2.csv',encoding='utf8')
+dfUsers = pd.read_csv('data15102015\pusers_it1-11_DONE_id.csv',encoding='utf8')
 #df = df[(df.status != 'On sale') & (df.status != 'Sold out')]
 #df.drop_duplicates(subset=['link', 'usr_name', 'start_date', 'BI', 'tournaments', 'coef',\
 # 'stakeback', 'player_part', 'sell_left', 'status'], inplace=True)
@@ -20,7 +20,7 @@ df = pd.read_csv('wtf.csv', parse_dates=True, dayfirst=True)
 #df.status = df.status.astype(float)
 
 
-#df = df[df.coef.notnull()]
+df = df[df.coef.notnull()]
 #df = df[300:]
 #vv = df.columns.values
 #vv[15]='cashes'
@@ -35,24 +35,24 @@ df['stakersProfit'] = (df.cashes - df.BI_actual - df.addPrice)*((100-df.player_p
 df['playersProfit'] = (df.cashes - df.BI_actual)*((df.player_part+df.sell_left)/100)+ \
     df.addPrice*((100-df.player_part-df.sell_left)/100)
 
-df['newpr'] = df.status - df.addPrice
+#df['newpr'] = df.status - df.addPrice
 
-##BUILD GRAPH WITH TOTAL PROFIT OVER TIME:
-ts = df[['start_date', 'status', 'playersProfit','stakersProfit', 'newpr']]
-ts.start_date = pd.to_datetime(ts.start_date, format="%d.%m.%Y")
-ts = ts.groupby(['start_date']).sum()
-#ts = ts.sort(columns='start_date')
-ts.status = ts.status.cumsum()
-ts.playersProfit = ts.playersProfit.cumsum()
-ts.stakersProfit = ts.stakersProfit.cumsum()
-ts.newpr = ts.newpr.cumsum()
-#ts.plot(x='start_date',y='status')
-ts.plot()
+###BUILD GRAPH WITH TOTAL PROFIT OVER TIME:
+#ts = df[['start_date', 'status', 'playersProfit','stakersProfit']]
+#ts.start_date = pd.to_datetime(ts.start_date, format="%d.%m.%Y")
+#ts = ts.groupby(['start_date']).sum()
+##ts = ts.sort(columns='start_date')
+#ts.status = ts.status.cumsum()
+#ts.playersProfit = ts.playersProfit.cumsum()
+#ts.stakersProfit = ts.stakersProfit.cumsum()
+##ts.newpr = ts.newpr.cumsum()
+##ts.plot(x='start_date',y='status')
+#ts.plot()
 
-##BUILD BAR GRAPH FOR 'ABI' vs. 'coef'
+#BUILD BAR GRAPH FOR 'ABI' vs. 'coef'
 #check for coef.value_counts()(!!) for representative numbers
-#abiCoef = df[['ABI','coef']]
-#abiCoef.groupby(['coef']).mean().plot(kind='bar')
+abiCoef = df[['ABI','coef']]
+abiCoef.groupby(['coef']).mean().plot(kind='bar')
 
 
 ##BUILD TABLE FOR TOP 5 PLAYERS BY CASHES, PLAYER'S PROFIT AND STAKER'S PROFIT
