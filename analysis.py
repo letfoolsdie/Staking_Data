@@ -51,8 +51,8 @@ df['playersProfit'] = (df.cashes - df.BI_actual)*((df.player_part+df.sell_left)/
 
 #BUILD BAR GRAPH FOR 'ABI' vs. 'coef'
 #check for coef.value_counts()(!!) for representative numbers
-abiCoef = df[['ABI','coef']]
-abiCoef.groupby(['coef']).mean().plot(kind='bar')
+#abiCoef = df[['ABI','coef']]
+#abiCoef.groupby(['coef']).mean().plot(kind='bar')
 
 
 ##BUILD TABLE FOR TOP 5 PLAYERS BY CASHES, PLAYER'S PROFIT AND STAKER'S PROFIT
