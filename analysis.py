@@ -4,7 +4,7 @@ Created on Fri Sep 18 10:46:12 2015
 
 @author: Nikolay_Semyachkin
 """
-
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
@@ -77,5 +77,16 @@ df['playersProfit'] = (df.cashes - df.BI_actual)*((df.player_part+df.sell_left)/
 #x = haveDist[haveDist.roi>haveDist.tot_totROI]
 #playedBetter = len(x)/len(haveDist)
 
+
+##PERCENT OF PROFITABLE DEALS:
+##Profitable to staker:
+#print(len(df[df.stakersProfit>0])/len(df))
+###Profitable players (to staker): roi > av.coef:
+#plSum = df[['usr_name','stakersProfit','coef']].groupby('usr_name')
+#plSum = plSum.agg({'stakersProfit':np.sum,'coef':np.mean})
+#du = pd.merge(dfUsers,plSum,right_index=True, left_on='usr_name')
+#du['coef_penalty'] = (du.coef-1)*100
+#s = du[du.roi>du.coef_penalty]
+#print(len(s)/len(du))
 
 

@@ -31,24 +31,21 @@ def extract_data(page):
 
 data_pd = pd.read_csv("data15102015\it1-11_DONE_id.csv", encoding="utf8")
 
-#toWorkWith = data_pd.loc[(data_pd['BI_actual']==0) & (data_pd['Cashes']==0)]
-#driver = webdriver.Firefox()
-#driver.implicitly_wait(1)
-driver = webdriver.Chrome('D:\Data Science\Poker staking data\chromedriver.exe')
+#driver = webdriver.Chrome('D:\Data Science\Poker staking data\chromedriver.exe')
 
-for i in range(len(data_pd)):
-    if (np.isnan(data_pd['BI_actual'][i]) & (np.isnan(data_pd['cashes'][i]))):
-        url = data_pd['item_info'][i]
-        driver.get(url)
-        time.sleep(0.5)
-        info = extract_data(driver.page_source)
-        if type(info) == list:
-            data_pd['BI_actual'][i] = info[2]
-            data_pd['cashes'][i] = info[3]
+#for i in range(len(data_pd)):
+#    if (np.isnan(data_pd['BI_actual'][i]) & (np.isnan(data_pd['cashes'][i]))):
+#        url = data_pd['item_info'][i]
+#        driver.get(url)
+#        time.sleep(0.5)
+#        info = extract_data(driver.page_source)
+#        if type(info) == list:
+#            data_pd['BI_actual'][i] = info[2]
+#            data_pd['cashes'][i] = info[3]
 #
-
-
-data_pd.to_csv("data15102015\it1-11_DONE_id.csv", encoding="utf8", index=False)
+#
+#
+#data_pd.to_csv("data15102015\it1-11_DONE_id.csv", encoding="utf8", index=False)
 
 #data_pd['profit'] = np.nan
 #data_pd['totBI']= np.nan
@@ -74,4 +71,4 @@ data_pd.to_csv("data15102015\it1-11_DONE_id.csv", encoding="utf8", index=False)
 #data_pd['ly_totROI']= np.nan
 users = data_pd
 users.drop_duplicates(subset='usr_name',inplace=True)
-users.to_csv("data15102015\pusers_it1-11_DONE_id.csv", encoding="utf8")
+#users.to_csv("data15102015\pusers_it1-11_DONE_id.csv", encoding="utf8")
