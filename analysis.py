@@ -20,7 +20,7 @@ dfUsers = pd.read_csv('data15102015\pusers_it1-11_DONE_id.csv',encoding='utf8')
 #df.status = df.status.astype(float)
 
 
-df = df[df.coef.notnull()]
+#df = df[df.coef.notnull()]
 #df = df[300:]
 #vv = df.columns.values
 #vv[15]='cashes'
@@ -35,6 +35,10 @@ df['stakersProfit'] = (df.cashes - df.BI_actual - df.addPrice)*((100-df.player_p
 df['playersProfit'] = (df.cashes - df.BI_actual)*((df.player_part+df.sell_left)/100)+ \
     df.addPrice*((100-df.player_part-df.sell_left)/100)
 
+##stakers profit for stakeback deals:
+#df.stakersProfit[np.isnan(df.coef)] = (df.status - df.status*df.plShare) * ((100-df.player_part-df.sell_left)/100)
+
+
 #df['newpr'] = df.status - df.addPrice
 
 ###BUILD GRAPH WITH TOTAL PROFIT OVER TIME:
@@ -45,8 +49,8 @@ df['playersProfit'] = (df.cashes - df.BI_actual)*((df.player_part+df.sell_left)/
 #ts.status = ts.status.cumsum()
 #ts.playersProfit = ts.playersProfit.cumsum()
 #ts.stakersProfit = ts.stakersProfit.cumsum()
-##ts.newpr = ts.newpr.cumsum()
-##ts.plot(x='start_date',y='status')
+###ts.newpr = ts.newpr.cumsum()
+###ts.plot(x='start_date',y='status')
 #ts.plot()
 
 #BUILD BAR GRAPH FOR 'ABI' vs. 'coef'
@@ -78,15 +82,29 @@ df['playersProfit'] = (df.cashes - df.BI_actual)*((df.player_part+df.sell_left)/
 #playedBetter = len(x)/len(haveDist)
 
 
-##PERCENT OF PROFITABLE DEALS:
-##Profitable to staker:
-#print(len(df[df.stakersProfit>0])/len(df))
-###Profitable players (to staker): roi > av.coef:
-#plSum = df[['usr_name','stakersProfit','coef']].groupby('usr_name')
-#plSum = plSum.agg({'stakersProfit':np.sum,'coef':np.mean})
+#PERCENT OF PROFITABLE DEALS:
+#Profitable to staker:
+print(len(df[df.stakersProfit>0])/len(df))
+##Profitable players (to staker): roi > av.coef:
+plSum = df[['usr_name','stakersProfit','coef']].groupby('usr_name')
+plSum = plSum.agg({'stakersProfit':np.sum,'coef':np.mean})
 #du = pd.merge(dfUsers,plSum,right_index=True, left_on='usr_name')
 #du['coef_penalty'] = (du.coef-1)*100
+#du = pd.merge(df,plSum,right_index=True, left_on='usr_name')
 #s = du[du.roi>du.coef_penalty]
 #print(len(s)/len(du))
+
+
+###Some manual analysis to filter profitable deals
+du = pd.merge(df,dfUsers,on='usr_name')
+du['coef_penalty'] = (du.coef-1)*100
+sum(du[du.tot_totROI>du.coef_penalty].stakersProfit)
+sum(du[du.tot_totROI>du.coef_penalty+10].stakersProfit)
+sum(du[du.ly_totROI>du.coef_penalty].stakersProfit)
+sum(du[du.ly_totROI>du.coef_penalty+10].stakersProfit)
+sum(du[(du.ly_totROI>du.coef_penalty)&(du.ly_avBI*1.3>du.ABI)].stakersProfit)
+sum(du[(du.ly_totROI>du.coef_penalty)&(du.ly_tournaments>500)].stakersProfit)
+sum(du[(du.ly_totROI>du.coef_penalty)&(du.ly_tournaments>500)&(du.ly_avBI*1.7>du.ABI)].stakersProfit)
+sum(du[(du.ly_totROI>du.coef_penalty)&(du.ly_avBI*1.7>du.ABI)&(du.roi>du.coef_penalty)].stakersProfit)
 
 

@@ -10,6 +10,9 @@ from bs4 import BeautifulSoup
 import numpy as np
 import time
 
+###CREATE FUNCTION TO EVALUATE STAKER'S PROFIT AT STAKEBACK DEALS:
+#df.stakersProfit[np.isnan(df.coef)]   
+
 def extract_data(page):
     soup = BeautifulSoup(page)
     if page.find('Total') < 0:
@@ -69,6 +72,6 @@ data_pd = pd.read_csv("data15102015\it1-11_DONE_id.csv", encoding="utf8")
 #data_pd['ly_profit']= np.nan
 #data_pd['ly_avROI']= np.nan
 #data_pd['ly_totROI']= np.nan
-users = data_pd
-users.drop_duplicates(subset='usr_name',inplace=True)
+#users = data_pd
+#users.drop_duplicates(subset='usr_name',inplace=True)
 #users.to_csv("data15102015\pusers_it1-11_DONE_id.csv", encoding="utf8")
