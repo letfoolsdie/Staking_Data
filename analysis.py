@@ -10,9 +10,9 @@ import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.style.use('ggplot')
 
-df = pd.read_csv('data15102015\it1-11_DONE_id.csv', parse_dates=True, dayfirst=True)
+df = pd.read_csv('data15102015/it1-11_DONE_id.csv', parse_dates=True, dayfirst=True)
 #df = pd.read_csv('wtf.csv', parse_dates=True, dayfirst=True)
-dfUsers = pd.read_csv('data15102015\pusers_it1-11_DONE_id.csv',encoding='utf8')
+dfUsers = pd.read_csv('data15102015/pusers_it1-11_DONE_id.csv',encoding='utf8')
 #df = df[(df.status != 'On sale') & (df.status != 'Sold out')]
 #df.drop_duplicates(subset=['link', 'usr_name', 'start_date', 'BI', 'tournaments', 'coef',\
 # 'stakeback', 'player_part', 'sell_left', 'status'], inplace=True)
@@ -84,7 +84,7 @@ df['playersProfit'] = (df.cashes - df.BI_actual)*((df.player_part+df.sell_left)/
 
 #PERCENT OF PROFITABLE DEALS:
 #Profitable to staker:
-print(len(df[df.stakersProfit>0])/len(df))
+#print(len(df[df.stakersProfit>0])/len(df))
 ##Profitable players (to staker): roi > av.coef:
 plSum = df[['usr_name','stakersProfit','coef']].groupby('usr_name')
 plSum = plSum.agg({'stakersProfit':np.sum,'coef':np.mean})
@@ -98,13 +98,21 @@ plSum = plSum.agg({'stakersProfit':np.sum,'coef':np.mean})
 ###Some manual analysis to filter profitable deals
 du = pd.merge(df,dfUsers,on='usr_name')
 du['coef_penalty'] = (du.coef-1)*100
-sum(du[du.tot_totROI>du.coef_penalty].stakersProfit)
-sum(du[du.tot_totROI>du.coef_penalty+10].stakersProfit)
-sum(du[du.ly_totROI>du.coef_penalty].stakersProfit)
-sum(du[du.ly_totROI>du.coef_penalty+10].stakersProfit)
-sum(du[(du.ly_totROI>du.coef_penalty)&(du.ly_avBI*1.3>du.ABI)].stakersProfit)
-sum(du[(du.ly_totROI>du.coef_penalty)&(du.ly_tournaments>500)].stakersProfit)
-sum(du[(du.ly_totROI>du.coef_penalty)&(du.ly_tournaments>500)&(du.ly_avBI*1.7>du.ABI)].stakersProfit)
-sum(du[(du.ly_totROI>du.coef_penalty)&(du.ly_avBI*1.7>du.ABI)&(du.roi>du.coef_penalty)].stakersProfit)
+#sum(du[du.tot_totROI>du.coef_penalty].stakersProfit)
+#sum(du[du.tot_totROI>du.coef_penalty+10].stakersProfit)
+#sum(du[du.ly_totROI>du.coef_penalty].stakersProfit)
+#sum(du[du.ly_totROI>du.coef_penalty+10].stakersProfit)
+#sum(du[(du.ly_totROI>du.coef_penalty)&(du.ly_avBI*1.3>du.ABI)].stakersProfit)
+#sum(du[(du.ly_totROI>du.coef_penalty)&(du.ly_tournaments>500)].stakersProfit)
+#sum(du[(du.ly_totROI>du.coef_penalty)&(du.ly_tournaments>500)&(du.ly_avBI*1.7>du.ABI)].stakersProfit)
+#sum(du[(du.ly_totROI>du.coef_penalty)&(du.ly_avBI*1.7>du.ABI)&(du.roi>du.coef_penalty)].stakersProfit)
+#
 
+###Build graph for stakers profit based on deals selected by strategy:
+x = du[(du.ly_totROI>du.coef_penalty)&(du.ly_tournaments>500)&(du.ly_avBI*1.7>du.ABI)]
 
+s = x[['start_date','stakersProfit']]
+s.start_date = pd.to_datetime(s.start_date, format="%d.%m.%Y")
+s = s.groupby(['start_date']).sum()
+s.stakersProfit = s.stakersProfit.cumsum()
+s.plot()
