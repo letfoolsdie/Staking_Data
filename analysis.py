@@ -10,6 +10,12 @@ import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.style.use('ggplot')
 
+def splitData(df, percForTest):
+    test = df.sample(frac = percForTest)
+    train = df.drop(df.index[test.index])
+    return train,test
+
+
 def simulateStrategy(df, starting_bankroll):
 #    bank = starting_bankroll
 #    df = df[['start_date','stakersProfit','tournaments_x','player_part','BI']]
@@ -137,7 +143,7 @@ x = du[(du.ly_totROI>du.coef_penalty)&(du.ly_tournaments>500)\
 #x = du[(du.roi>du.coef_penalty)&(du.abi*1.2>du.ABI)]
 
 df = simulateStrategy(x,500)
-
+train,test = splitData(du,0.2)
 #s = x[['start_date','stakersProfit']]
 #s.start_date = pd.to_datetime(s.start_date, format="%d.%m.%Y")
 #s = s.groupby(['start_date']).sum()
