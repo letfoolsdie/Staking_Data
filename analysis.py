@@ -10,6 +10,25 @@ import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.style.use('ggplot')
 
+def simulateStrategy(df, starting_bankroll):
+#    bank = starting_bankroll
+#    df = df[['start_date','stakersProfit','tournaments_x','player_part','BI']]
+    df.start_date = pd.to_datetime(df.start_date, format="%d.%m.%Y")
+    dol_per_tourn = 1
+    df['st_share'] = df.tournaments_x*dol_per_tourn / df.BI
+    df['st_share'][df.st_share*100 > 100 - df.player_part] = (100 - df.player_part)/100
+    df['bets'] = df.stakersProfit*df.st_share
+#    df['iss'] = 1
+#    df = df[['bets','start_date']]
+    df = df.groupby(['start_date']).sum()
+    df.bets = df.bets.cumsum()
+    df.bets.plot()
+#    df.iss.plot()
+    return df
+    
+    
+
+
 df = pd.read_csv('data15102015/it1-11_DONE_id.csv', parse_dates=True, dayfirst=True)
 #df = pd.read_csv('wtf.csv', parse_dates=True, dayfirst=True)
 dfUsers = pd.read_csv('data15102015/pusers_it1-11_DONE_id.csv',encoding='utf8')
@@ -109,10 +128,18 @@ du['coef_penalty'] = (du.coef-1)*100
 #
 
 ###Build graph for stakers profit based on deals selected by strategy:
-x = du[(du.ly_totROI>du.coef_penalty)&(du.ly_tournaments>500)&(du.ly_avBI*1.7>du.ABI)]
+x = du[(du.ly_totROI>du.coef_penalty)&(du.ly_tournaments>500)\
+&(du.ly_avBI*1.7>du.ABI)&(du.tot_totROI > du.coef_penalty+10)]
 
-s = x[['start_date','stakersProfit']]
-s.start_date = pd.to_datetime(s.start_date, format="%d.%m.%Y")
-s = s.groupby(['start_date']).sum()
-s.stakersProfit = s.stakersProfit.cumsum()
-s.plot()
+#x = du[(du.ly_totROI>du.coef_penalty)\
+#&(du.ly_avBI*1.7>du.ABI)&(du.roi > 0)]
+
+#x = du[(du.roi>du.coef_penalty)&(du.abi*1.2>du.ABI)]
+
+df = simulateStrategy(x,500)
+
+#s = x[['start_date','stakersProfit']]
+#s.start_date = pd.to_datetime(s.start_date, format="%d.%m.%Y")
+#s = s.groupby(['start_date']).sum()
+#s.stakersProfit = s.stakersProfit.cumsum()
+#s.plot()
