@@ -11,7 +11,7 @@ driver = webdriver.Chrome('D:\Data Science\Poker staking data\chromedriver.exe')
 #driver = webdriver.Firefox()
 
 
-driver.get("https://mttmarket.com/packets/list?status=complete")
+driver.get("https://mttmarket.com/packets/list?status=cancelled")
 driver.maximize_window()
 x = driver.find_element_by_link_text('Show more')
 #x = driver.find_element_by_link_text('Show more')
